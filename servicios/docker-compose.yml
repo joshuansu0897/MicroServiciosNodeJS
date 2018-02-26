@@ -1,0 +1,24 @@
+version: '2'
+services:
+  web-servicios:
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - 3333:3333
+    environment:
+      - PORT_MONGO=27017
+      - URL_MONGO=mongo-servicios
+      - PORT=3333
+    links:
+      - mongo-servicios
+    depends_on:
+      - mongo-servicios    
+  mongo-servicios:
+    image: mongo
+    command: mongod --port 27017
+    container_name: "mongo-servicios"
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/db:/data/db

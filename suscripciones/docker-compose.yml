@@ -1,0 +1,25 @@
+version: '2'
+services:
+  web-suscripciones:
+    build: .
+    volumes:
+      - ./:/app
+      - ./node_modules:/app/node_modules
+    ports:
+      - 4567:4567
+    environment:
+      - PORT_MONGO=27020
+      - URL_MONGO=mongo-suscripciones
+      - PORT=4567
+    links:
+      - mongo-suscripciones
+    depends_on:
+      - mongo-suscripciones
+  mongo-suscripciones:
+    image: mongo
+    command: mongod --port 27020
+    container_name: "mongo-suscripciones"
+    ports:
+      - 27020:27020
+    volumes:
+      - ./data/db:/data/db

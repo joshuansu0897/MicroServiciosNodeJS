@@ -1,0 +1,25 @@
+version: '2'
+services:
+  web-clientes:
+    build: .
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    environment:
+      - PORT_MONGO=27018
+      - URL_MONGO=mongo-clientes
+      - PORT=3000
+    links:
+      - mongo-clientes
+    depends_on:
+      - mongo-clientes
+  mongo-clientes:
+    image: mongo
+    command: mongod --port 27018
+    container_name: "mongo-clientes"
+    ports:
+      - 27018:27018
+    volumes:
+      - ./data/db:/data/db
