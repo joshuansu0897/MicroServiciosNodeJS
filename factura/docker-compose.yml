@@ -1,0 +1,24 @@
+version: '3'
+services:
+  web-factura:
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - 5678:5678
+    environment:
+      - PORT_MONGO=27030
+      - URL_MONGO=mongo-factura
+      - PORT=5678
+    links:
+      - mongo-factura
+    depends_on:
+      - mongo-factura    
+  mongo-factura:
+    image: mongo
+    command: mongod --port 27030
+    container_name: "mongo-factura"
+    ports:
+      - 27030:27030
+    volumes:
+      - ./data/db:/data/db
