@@ -1,1 +1,11 @@
 version: '3'
+
+networks:
+  microservices-net:
+    driver: network-for-job
+
+services:
+  app1:
+    extends:
+      file: ./clientes/docker-compose.yml
+      

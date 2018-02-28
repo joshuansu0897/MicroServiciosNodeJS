@@ -23,3 +23,8 @@ services:
       - 27018:27018
     volumes:
       - ./data/db:/data/db
+
+networks:
+  default:
+    external:
+      name: job-net
