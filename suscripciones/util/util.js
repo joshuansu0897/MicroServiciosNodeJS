@@ -17,15 +17,13 @@ module.exports = class Util {
     }
 
     static async getData(options) {
-        let data = await rp(options)
+        return await rp(options)
             .then(function (res) {
-                console.log(res)
+                console.log(res._id)
                 return res._id
             })
             .catch(function (err) {
                 return undefined;
             });
-        console.log(data)
-        return data
     }
 }

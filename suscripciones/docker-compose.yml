@@ -11,6 +11,10 @@ services:
       - PORT_MONGO=27020
       - URL_MONGO=mongo-suscripciones
       - PORT=4567
+      - IP_CLIENTES_SERVICES=172.20.0.3
+      - PORT_CLIENTES_SERVICES=3000
+      - IP_SERVICIOS_SERVICES=172.20.0.5
+      - PORT_SERVICIOS_SERVICES=3333
     links:
       - mongo-suscripciones
     depends_on:

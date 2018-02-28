@@ -1,6 +1,12 @@
 const express = require('express');
 const rpUtil = require('../util/util');
 
+// tomando los ip y puertos
+const ipCliente = process.env.IP_CLIENTES_SERVICES
+const portCliente = process.env.PORT_CLIENTES_SERVICES
+const ipServicios = process.env.IP_SERVICIOS_SERVICES
+const portServicios = process.env.PORT_SERVICIOS_SERVICES
+
 // Suscripcion Modelo
 const Suscripcion = require('../models/Suscripcion');
 
@@ -29,14 +35,14 @@ router.route('/suscripciones')
         let suscripcion = new Suscripcion();
 
         options = {
-            uri: `http://172.20.0.3:3000/api/clientes/${req.body.cliente_id}`,
+            uri: `http://${ipCliente}:${portCliente}/api/clientes/${req.body.cliente_id}`,
             json: true
         };
-
+        console.log(options.uri)
         suscripcion.cliente_id = rpUtil.getData(options)
 
         options = {
-            uri: `http://172.20.0.7:3333/api/servicios/${req.body.servicio_id}`,
+            uri: `http://${ipServicios}:${portServicios}/api/servicios/${req.body.servicio_id}`,
             json: true
         };
 
