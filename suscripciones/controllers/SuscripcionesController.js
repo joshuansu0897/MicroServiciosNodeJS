@@ -24,8 +24,6 @@ router.get('/', function (req, res) {
     res.json({ message: 'Estas en la API del microservicio de Suscripciones' });
 });
 
-let options = {}
-
 // ruta /suscripciones incluye getAll suscripciones y para crear nuevos suscripciones
 router.route('/suscripciones')
 
@@ -34,33 +32,7 @@ router.route('/suscripciones')
 
         let suscripcion = new Suscripcion();
 
-        options = {
-            uri: `http://${ipCliente}:${portCliente}/api/clientes/${req.body.cliente_id}`,
-            json: true
-        };
-        console.log(options.uri)
-        suscripcion.cliente_id = rpUtil.getData(options)
-
-        options = {
-            uri: `http://${ipServicios}:${portServicios}/api/servicios/${req.body.servicio_id}`,
-            json: true
-        };
-
-        suscripcion.servicio_id = rpUtil.getData(options)
-
-        if (suscripcion.servicio_id == undefined || suscripcion.cliente_id == undefined) {
-            res.json({ message: 'No se pudo crear la suscripcion' });
-            console.log(suscripcion.cliente_id)
-            console.log(suscripcion.servicio_id)
-            return;
-        }
-
-        suscripcion.save(function (err) {
-            if (err) {
-                res.send(err);
-            }
-            res.json({ message: 'suscripcion creada' });
-        });
+        requestToSaveSub(suscripcion, res, req)
 
     })
 
@@ -96,15 +68,15 @@ router.route('/suscripciones/:suscripciones_id')
                 res.send(err);
             }
 
-            suscripcion.cliente_id = req.body.cliente_id;
-            suscripcion.servicio_id = req.body.servicio_id;
+            if (req.body.cliente_id == '' || req.body.cliente_id == undefined) {
+                req.body.cliente_id = suscripcion.cliente_id
+            }
 
-            suscripcion.save(function (err) {
-                if (err) {
-                    res.send(err);
-                }
-                res.json({ message: 'suscripcion Actualizada' });
-            });
+            if (req.body.servicio_id == '' || req.body.servicio_id == undefined) {
+                req.body.servicio_id = suscripcion.servicio_id
+            }
+
+            requestToSaveSub(suscripcion, res, req)
 
         });
     })
@@ -121,4 +93,42 @@ router.route('/suscripciones/:suscripciones_id')
             res.json({ message: 'Suscripcion borrada' });
         });
     });
+
+function saveSub(suscripcion, res) {
+    if (suscripcion.servicio_id == undefined || suscripcion.cliente_id == undefined) {
+        res.json({ message: 'No se pudo guardar la Suscripcion' });
+        return;
+    }
+
+    suscripcion.save(function (err) {
+        if (err) {
+            res.send(err);
+        }
+        res.json({ message: 'Se guardo la Suscripcion' });
+    });
+}
+
+function requestToSaveSub(suscripcion, res, req) {
+
+    let options = {
+        host: ipCliente,
+        port: portCliente,
+        path: `/api/clientes/${req.body.cliente_id}`,
+        method: 'GET'
+    };
+
+    rpUtil.getJSON(options, function (statusCode, result) {
+        suscripcion.cliente_id = result._id
+        options = {
+            host: ipServicios,
+            port: portServicios,
+            path: `/api/servicios/${req.body.servicio_id}`,
+            method: 'GET'
+        };
+        rpUtil.getJSON(options, function (statusCode, result) {
+            suscripcion.servicio_id = result._id
+            saveSub(suscripcion, res)
+        });
+    });
+}
 module.exports = router

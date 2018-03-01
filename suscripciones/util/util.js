@@ -1,20 +1,38 @@
-const request = require('request');
 const rp = require('request-promise')
+const http = require("http")
+const https = require("https")
 
 module.exports = class Util {
-    static getClientes(str) {
-        return new Promise((resolve, reject) => {
-            console.log(str)
-            request
-                .get(str)
-                .on('response', function (response) {
-                    resolve(response);
-                })
-                .on('error', function (err) {
-                    reject(err)
-                })
+
+
+    /**
+     * getJSON:  REST get request returning JSON object(s)
+     * @param options: http options object
+     * @param callback: callback to pass the results JSON object(s) back
+     */
+    static getJSON(options, onResult) {
+
+        let port = options.port == 443 ? https : http;
+        let req = port.request(options, function (res) {
+            let output = '';
+            res.setEncoding('utf8');
+
+            res.on('data', function (chunk) {
+                output += chunk;
+            });
+
+            res.on('end', function () {
+                let obj = JSON.parse(output);
+                onResult(res.statusCode, obj);
+            });
+
+            req.on('error', function (err) {
+                res.send('error: ' + err.message);
+            });
         })
-    }
+
+        req.end();
+    };
 
     static async getData(options) {
         return await rp(options)
