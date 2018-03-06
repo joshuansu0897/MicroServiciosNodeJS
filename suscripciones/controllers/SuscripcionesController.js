@@ -1,5 +1,6 @@
 const express = require('express');
 const rpUtil = require('../util/util');
+const rp = require('request-promise')
 
 // tomando los ip y puertos
 const ipCliente = process.env.IP_CLIENTES_SERVICES
@@ -94,6 +95,64 @@ router.route('/suscripciones/:suscripciones_id')
         });
     });
 
+// definiendo las rutas para el /:cliente_id
+router.route('/:cliente_id')
+
+    // get Suscripcion por id
+    .get(function (req, res) {
+        Suscripcion.find({ 'cliente_id': req.params.cliente_id }, function (err, suscripcion) {
+            if (err) {
+                res.send(err);
+            }
+            crearFactura(suscripcion, res, req.params.cliente_id)
+        });
+    })
+
+async function crearFactura(suscripcion, res, cliente_id) {
+    let obj = {}
+    let total = 0
+
+    await rpUtil.asyncForEach(suscripcion, async (i) => {
+        const res = await getDataServicios(i.servicio_id);
+        total += Number(res.tarifa)
+    });
+
+    const cliente = await getDataClientes(cliente_id)
+
+    obj.num_servicios = suscripcion.length
+    obj.nombre_cliente = cliente.nombre
+    obj.costo_total = total
+    res.json(obj);
+}
+
+async function getDataServicios(servicio_id) {
+
+    let options = {
+        uri: `http://${ipServicios}:${portServicios}/api/servicios/${servicio_id}`,
+        json: true
+    };
+
+    return await rp(options)
+}
+
+async function getDataClientes(cliente_id) {
+
+    let options = {
+        uri: `http://${ipCliente}:${portCliente}/api/clientes/${cliente_id}`,
+        json: true
+    };
+
+    return await rp(options)
+}
+
+async function requestToSaveSub(suscripcion, res, req) {
+    const cliente = await getDataClientes(req.body.cliente_id)
+    const servicio = await getDataServicios(req.body.servicio_id)
+    suscripcion.cliente_id = cliente._id
+    suscripcion.servicio_id = servicio._id
+    saveSub(suscripcion, res)
+}
+
 function saveSub(suscripcion, res) {
     if (suscripcion.servicio_id == undefined || suscripcion.cliente_id == undefined) {
         res.json({ message: 'No se pudo guardar la Suscripcion' });
@@ -105,30 +164,6 @@ function saveSub(suscripcion, res) {
             res.send(err);
         }
         res.json({ message: 'Se guardo la Suscripcion' });
-    });
-}
-
-function requestToSaveSub(suscripcion, res, req) {
-
-    let options = {
-        host: ipCliente,
-        port: portCliente,
-        path: `/api/clientes/${req.body.cliente_id}`,
-        method: 'GET'
-    };
-
-    rpUtil.getJSON(options, function (statusCode, result) {
-        suscripcion.cliente_id = result._id
-        options = {
-            host: ipServicios,
-            port: portServicios,
-            path: `/api/servicios/${req.body.servicio_id}`,
-            method: 'GET'
-        };
-        rpUtil.getJSON(options, function (statusCode, result) {
-            suscripcion.servicio_id = result._id
-            saveSub(suscripcion, res)
-        });
     });
 }
 module.exports = router

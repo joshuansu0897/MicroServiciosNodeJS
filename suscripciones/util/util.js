@@ -1,47 +1,16 @@
-const rp = require('request-promise')
-const http = require("http")
-const https = require("https")
-
 module.exports = class Util {
 
-
     /**
-     * getJSON:  REST get request returning JSON object(s)
-     * @param options: http options object
-     * @param callback: callback to pass the results JSON object(s) back
+     * es una funcion async que recorre un arreglo y por cada elemento invoca 
+     * un metodo que regresa una promesa, espera a que se resuelva la promesa 
+     * por cada elemento.
+     * Nota:la logica de que hacer con la respuesta se pone en el callback
+     * @param {un arreglo comun y corriente} array 
+     * @param {es la funcion la cual se ejecutara con cada elemento del array} callback 
      */
-    static getJSON(options, onResult) {
-
-        let port = options.port == 443 ? https : http;
-        let req = port.request(options, function (res) {
-            let output = '';
-            res.setEncoding('utf8');
-
-            res.on('data', function (chunk) {
-                output += chunk;
-            });
-
-            res.on('end', function () {
-                let obj = JSON.parse(output);
-                onResult(res.statusCode, obj);
-            });
-
-            req.on('error', function (err) {
-                res.send('error: ' + err.message);
-            });
-        })
-
-        req.end();
-    };
-
-    static async getData(options) {
-        return await rp(options)
-            .then(function (res) {
-                console.log(res._id)
-                return res._id
-            })
-            .catch(function (err) {
-                return undefined;
-            });
+    static async asyncForEach(array, callback) {
+        for (let index = 0; index < array.length; index++) {
+            await callback(array[index], index, array)
+        }
     }
 }
