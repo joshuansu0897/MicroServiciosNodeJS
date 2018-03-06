@@ -111,17 +111,24 @@ router.route('/:cliente_id')
 async function crearFactura(suscripcion, res, cliente_id) {
     let obj = {}
     let total = 0
-
+    let ser = []
     await rpUtil.asyncForEach(suscripcion, async (i) => {
         const res = await getDataServicios(i.servicio_id);
+        ser.push({
+            created_At: i.created_At,
+            tarifa: res.tarifa,
+            nombre: res.nombre,
+            _id: res._id
+        })
         total += Number(res.tarifa)
     });
 
     const cliente = await getDataClientes(cliente_id)
 
-    obj.num_servicios = suscripcion.length
     obj.nombre_cliente = cliente.nombre
     obj.costo_total = total
+    obj.num_servicios = suscripcion.length
+    obj.servicios = ser
     res.json(obj);
 }
 
