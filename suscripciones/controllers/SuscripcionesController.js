@@ -104,11 +104,11 @@ router.route('/:cliente_id')
             if (err) {
                 res.send(err);
             }
-            crearFactura(suscripcion, res, req.params.cliente_id)
+            detallesDeSuscripcion(suscripcion, res, req.params.cliente_id)
         });
     })
 
-async function crearFactura(suscripcion, res, cliente_id) {
+async function detallesDeSuscripcion(suscripcion, res, cliente_id) {
     let obj = {}
     let total = 0
     let ser = []

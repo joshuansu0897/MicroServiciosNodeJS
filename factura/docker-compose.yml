@@ -10,6 +10,8 @@ services:
       - PORT_MONGO=27030
       - URL_MONGO=mongo-factura
       - PORT=5678
+      - IP_SUSCRIPCIONES_SERVICES=172.20.0.7
+      - PORT_SUSCRIPCIONES_SERVICES=4567
     links:
       - mongo-factura
     depends_on:

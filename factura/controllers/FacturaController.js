@@ -1,4 +1,9 @@
 const express = require('express');
+const rp = require('request-promise')
+
+// tomando los ip y puertos
+const ipSuscripciones = process.env.IP_SUSCRIPCIONES_SERVICES
+const portSuscripciones = process.env.PORT_SUSCRIPCIONES_SERVICES
 
 // Factura Modelo
 const Factura = require('../models/Factura');
@@ -18,16 +23,27 @@ router.get('/', function (req, res) {
 });
 
 // ruta /facturas incluye getAll facturas y para crear nuevos facturas
-router.route('/facturas')
+router.route('/facturas/:cliente_id')
 
     // regresa todos los facturas (GET http://localhost:${PORT}/api/facturas)
     .get(function (req, res) {
-        Factura.find(function (err, factura) {
-            if (err)
-                res.send(err);
-
-            res.json(factura);
-        });
+        crearFacturaCliente(req, res)        
     });
+
+async function crearFacturaCliente(req, res){
+    const jsonRes = await getDataSuscripciones(req.params.cliente_id)
+    console.log(jsonRes)
+    res.json(jsonRes)
+}
+
+async function getDataSuscripciones(cliente_id) {
+
+    let options = {
+        uri: `http://${ipSuscripciones}:${portSuscripciones}/api/${cliente_id}`,
+        json: true
+    };
+
+    return await rp(options)
+}
 
 module.exports = router
