@@ -32,7 +32,6 @@ router.route('/facturas/:cliente_id')
 
 async function crearFacturaCliente(req, res){
     const jsonRes = await getDataSuscripciones(req.params.cliente_id)
-    console.log(jsonRes)
     res.json(jsonRes)
 }
 
