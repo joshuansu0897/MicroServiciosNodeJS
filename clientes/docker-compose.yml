@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   web-clientes:
     build: .
     volumes:
@@ -15,6 +16,7 @@ services:
       - mongo-clientes
     depends_on:
       - mongo-clientes
+      
   mongo-clientes:
     image: mongo
     command: mongod --port 27018

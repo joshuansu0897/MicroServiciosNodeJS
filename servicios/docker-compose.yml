@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   web-servicios:
     build: .
     volumes:
@@ -14,6 +15,7 @@ services:
       - mongo-servicios
     depends_on:
       - mongo-servicios    
+
   mongo-servicios:
     image: mongo
     command: mongod --port 27017

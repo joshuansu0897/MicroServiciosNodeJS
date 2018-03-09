@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   web-suscripciones:
     build: .
     volumes:
@@ -11,14 +12,15 @@ services:
       - PORT_MONGO=27020
       - URL_MONGO=mongo-suscripciones
       - PORT=4567
-      - IP_CLIENTES_SERVICES=172.20.0.3
+      - IP_CLIENTES_SERVICES=<ip-clientes-host>
       - PORT_CLIENTES_SERVICES=3000
-      - IP_SERVICIOS_SERVICES=172.20.0.5
+      - IP_SERVICIOS_SERVICES=<ip-servicios-host>
       - PORT_SERVICIOS_SERVICES=3333
     links:
       - mongo-suscripciones
     depends_on:
       - mongo-suscripciones
+      
   mongo-suscripciones:
     image: mongo
     command: mongod --port 27020
