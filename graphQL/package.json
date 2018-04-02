@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "npm install",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -15,6 +17,7 @@
     "express-graphql": "^0.6.12",
     "graphql": "^0.13.2",
     "graphql-tools": "^2.23.1",
-    "node-fetch": "^2.1.2"
+    "node-fetch": "^2.1.2",
+    "nodemon": "^1.15.1"
   }
 }
