@@ -11,10 +11,6 @@ const Servicio = require("./Servicio");
 
 // este es el verdado 'schema'...
 const rootQuery = `
-    # estamos declarando un tipo que a lo que sea que le apliquemos a este tipo
-    # va a regresar un Servicio o un Cliente
-    union ResultadoBusqueda = Servicio | Cliente
-
     # Los endpoint
     type Query {
         # endpoint para 'Clientes'
@@ -25,8 +21,6 @@ const rootQuery = `
         cliente(id: Int): Cliente
         # endpoint para 'Servicio' por 'ID'
         servicio(id: Int): Servicio
-        # este endpoint regresa una lista de "ResultadoBusqueda" que puede ser Servicio o Cliente
-        buscar(query: String!): [ResultadoBusqueda]
     }
 `;
 
