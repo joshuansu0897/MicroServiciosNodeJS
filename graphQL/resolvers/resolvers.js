@@ -10,14 +10,14 @@ const resolvers = {
         clientes: () => {
             return fetch(`${ipCliente}:${portCliente}/clientes`).then(res => res.json())
         },
-        user: (parent, args) => {
+        cliente: (parent, args) => {
             const { id } = args
             return fetch(`${ipCliente}:${portCliente}/clientes/${id}`).then(res => res.json())
         },
         servicios: () => {
             return fetch(`${ipServicios}:${portServicios}/servicios`).then(res => res.json())
         },
-        post: (parent, args) => {
+        servicio: (parent, args) => {
             const { id } = args
             return fetch(`${ipServicios}:${portServicios}/servicios/${id}`).then(res => res.json())
         },
