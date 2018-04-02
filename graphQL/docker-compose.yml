@@ -1,0 +1,20 @@
+version: '3'
+services:
+
+  grap:
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - 8888:8888
+    environment:
+      - PORT=8888
+      - IP_CLIENTES_SERVICES=clientes
+      - PORT_CLIENTES_SERVICES=3000
+      - IP_SERVICIOS_SERVICES=servicios
+      - PORT_SERVICIOS_SERVICES=3333
+
+networks:
+  default:
+    external:
+      name: job-net

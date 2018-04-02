@@ -35,7 +35,7 @@ app.use(
 // a graphql con un formato json donde van las querys y todo lo demas
 app.use("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));
 
-const PORT = 8888;
+const PORT = process.env.PORT || 8888;
 app.listen(PORT, () => {
   console.log(`
     GraphQL corriendo en http://localhost:${PORT}

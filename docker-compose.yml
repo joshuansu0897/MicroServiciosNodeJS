@@ -123,6 +123,22 @@ services:
       - ./facturas/data/db:/data/db
   # servicios de facturas ---------
 
+  # servicio de graphQL -----------  
+  grap:
+    build: ./graphQL
+    volumes:
+      - ./graphQL:/app
+    ports:
+      - 8888:8888
+    environment:
+      - PORT=8888
+      - IP_CLIENTES_SERVICES=clientes
+      - PORT_CLIENTES_SERVICES=3000
+      - IP_SERVICIOS_SERVICES=servicios
+      - PORT_SERVICIOS_SERVICES=3333
+
+  # servicio de graphQL -----------
+
 networks:
   default:
     external:
