@@ -1,7 +1,7 @@
 module.exports = `
     # Este es el schema de 'Cliente'
     type Cliente {
-        id: ID!
+        _id: ID!
         nombre: String!
         telefono: String
         correo: String
