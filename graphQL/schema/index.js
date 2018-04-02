@@ -18,9 +18,9 @@ const rootQuery = `
         # endpoint para 'Servicios'
         servicios: [Servicio]
         # endpoint para 'Cliente' por 'ID'
-        cliente(id: Int): Cliente
+        cliente(id: String!): Cliente
         # endpoint para 'Servicio' por 'ID'
-        servicio(id: Int): Servicio
+        servicio(id: String!): Servicio
     }
 `;
 
