@@ -35,7 +35,7 @@ const rootQuery = `
 // resolvers: resolvers
 // ..asi
 const schema = makeExecutableSchema({
-    typeDefs: [rootQuery, Profesor, Curso],
+    typeDefs: [rootQuery, Cliente, Servicio],
     resolvers
 });
 
