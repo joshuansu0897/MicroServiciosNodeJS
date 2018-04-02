@@ -8,18 +8,18 @@ const portServicios = process.env.PORT_SERVICIOS_SERVICES || 3333
 const resolvers = {
     Query: {
         clientes: () => {
-            return fetch(`${ipCliente}:${portCliente}/clientes`).then(res => res.json())
+            return fetch(`http://${ipCliente}:${portCliente}/api/clientes`).then(res => res.json())
         },
         cliente: (parent, args) => {
             const { id } = args
-            return fetch(`${ipCliente}:${portCliente}/clientes/${id}`).then(res => res.json())
+            return fetch(`http://${ipCliente}:${portCliente}/api/clientes/${id}`).then(res => res.json())
         },
         servicios: () => {
-            return fetch(`${ipServicios}:${portServicios}/servicios`).then(res => res.json())
+            return fetch(`http://${ipServicios}:${portServicios}/api/servicios`).then(res => res.json())
         },
         servicio: (parent, args) => {
             const { id } = args
-            return fetch(`${ipServicios}:${portServicios}/servicios/${id}`).then(res => res.json())
+            return fetch(`http://${ipServicios}:${portServicios}/api/servicios/${id}`).then(res => res.json())
         },
     },
 }
