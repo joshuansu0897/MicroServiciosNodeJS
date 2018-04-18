@@ -136,6 +136,20 @@ services:
       - PORT_CLIENTES_SERVICES=3000
       - IP_SERVICIOS_SERVICES=servicios
       - PORT_SERVICIOS_SERVICES=3333
+      - IP_FACTURA_SERVICES=facturas
+      - PORT_FACTURA_SERVICES=5678
+      - IP_SUSCRIPCION_SERVICES=suscripciones
+      - PORT_SUSCRIPCION_SERVICES=4567
+    links:
+      - clientes
+      - servicios
+      - facturas
+      - suscripciones
+    depends_on:
+      - clientes
+      - facturas
+      - suscripciones
+      - servicios
 
   # servicio de graphQL -----------
 

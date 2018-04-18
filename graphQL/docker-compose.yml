@@ -13,6 +13,10 @@ services:
       - PORT_CLIENTES_SERVICES=3000
       - IP_SERVICIOS_SERVICES=servicios
       - PORT_SERVICIOS_SERVICES=3333
+      - IP_FACTURA_SERVICES=clientes
+      - PORT_FACTURA_SERVICES=5678
+      - IP_SUSCRIPCION_SERVICES=servicios
+      - PORT_SUSCRIPCION_SERVICES=4567
 
 networks:
   default:
