@@ -52,6 +52,13 @@ const rootQuery = `
         # elimina un Servicio basado en su 'ID'
         servicioDelete(id: String!): Servicio
 
+        # crea una Suscripcion con los parametros de 'NuevoSuscripcion'
+        suscripcionAdd(suscripcion: NuevoSuscripcion): Suscripcion
+        # recive el 'ID' de la Suscripcion que se modificara y 'SuscripcionEditable' son los campos a modificar
+        suscripcionEdit(id: String!, suscripcion: SuscripcionEditable): Suscripcion
+        # elimina una Suscripcion basado en su 'ID'
+        suscripcionDelete(id: String!): Suscripcion
+
     }
 `;
 

@@ -3,7 +3,14 @@ module.exports = `
     type Factura {
         nombre_cliente: String
         costo_total: String
-        num_servicios: Int
-        servicios: [Servicio]
+        num_servicios: String
+        servicios: [DetallesFacturaServicio]
+    }
+
+    type DetallesFacturaServicio {
+        created_At: String
+        tarifa: String
+        nombre: String
+        _id: ID
     }
 `;

@@ -44,6 +44,11 @@ const resolvers = {
             const { id } = args
             return fetch(`http://${ipSuscripcion}:${portSuscripcion}/api/suscripciones/${id}`).then(res => res.json())
         },
+        // query factura
+        factura: (parent, args) => {
+            trabajo()
+            return fetch(`http://${ipFactura}:${portFactura}/api/facturas/${args.idCliente}`).then(res => res.json())
+        }
     },
     // el guion bajo es una convencion para los argumenos que no usamos ahi va "rootValue", args si los usamos
     Mutation: {
@@ -94,6 +99,31 @@ const resolvers = {
             trabajo()
             const { id } = args
             return fetch(`http://${ipServicios}:${portServicios}/api/servicios/${id}`, {
+                method: 'DELETE'
+            }).then(res => res.json())
+        },
+        // mutation suscripciones
+        suscripcionAdd: (_, args) => {
+            trabajo()
+            return fetch(`http://${ipSuscripcion}:${portSuscripcion}/api/suscripciones`, {
+                method: 'POST',
+                body: JSON.stringify(args.suscripcion),
+                headers: { 'Content-Type': 'application/json' },
+            }).then(res => res.json())
+        },
+        suscripcionEdit: (_, args) => {
+            trabajo()
+            const { id } = args
+            return fetch(`http://${ipSuscripcion}:${portSuscripcion}/api/suscripciones/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify(args.suscripcion),
+                headers: { 'Content-Type': 'application/json' },
+            }).then(res => res.json())
+        },
+        servicioDelete: (_, args) => {
+            trabajo()
+            const { id } = args
+            return fetch(`http://${ipSuscripcion}:${portSuscripcion}/api/suscripciones/${id}`, {
                 method: 'DELETE'
             }).then(res => res.json())
         }
