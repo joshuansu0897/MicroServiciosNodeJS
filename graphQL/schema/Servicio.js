@@ -10,9 +10,9 @@ module.exports = `
 
     input NuevoServicio {
         nombre: String!
-        codigo: String!
+        codigo: String
         descripcion: String!
-        tarifa: String
+        tarifa: String!
     }
 
     input ServicioEditable {

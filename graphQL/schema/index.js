@@ -40,10 +40,18 @@ const rootQuery = `
 
         # crea un Cliente con los parametros de 'NuevoCliente'
         clienteAdd(cliente: NuevoCliente): Cliente
-        # recive un 'ID' que es el Cliente que se modificara y en 'ClienteEditable' los campos a modificar
+        # recive el 'ID' del Cliente que se modificara y 'ClienteEditable' son los campos a modificar
         clienteEdit(id: String!, cliente: ClienteEditable): Cliente
         # elimina un Cliente basado en su 'ID'
         clienteDelete(id: String!): Cliente
+
+        # crea un Servicio con los parametros de 'NuevoServicio'
+        servicioAdd(servicio: NuevoServicio): Servicio
+        # recive el 'ID' del Servicio que se modificara y 'ServicioEditable' son los campos a modificar
+        servicioEdit(id: String!, servicio: ServicioEditable): Servicio
+        # elimina un Servicio basado en su 'ID'
+        servicioDelete(id: String!): Servicio
+
     }
 `;
 

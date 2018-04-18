@@ -33,7 +33,7 @@ router.route('/servicios')
             if (err) {
                 res.send(err);
             }
-            res.json({ message: 'Servicio creado' });
+            res.json(servicio);
         });
 
 
@@ -80,7 +80,7 @@ router.route('/servicios/:servicio_id')
                 if (err) {
                     res.send(err);
                 }
-                res.json({ message: 'Servicio Actualizado' });
+                res.json(servicio);
             });
 
         });
@@ -88,6 +88,12 @@ router.route('/servicios/:servicio_id')
 
     // delete servicio
     .delete(function (req, res) {
+
+        let SERVICIO
+        Servicio.findById(req.params.servicio_id, function (err, servicio) {
+            SERVICIO = servicio;
+        });
+
         Servicio.remove({
             _id: req.params.servicio_id
         }, function (err, servicio) {
@@ -95,7 +101,7 @@ router.route('/servicios/:servicio_id')
                 res.send(err);
             }
 
-            res.json({ message: 'Servicio borrado' });
+            res.json(SERVICIO);
         });
     });
 

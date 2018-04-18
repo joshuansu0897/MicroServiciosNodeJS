@@ -35,6 +35,7 @@ const resolvers = {
     },
     // el guion bajo es una convencion para los argumenos que no usamos ahi va "rootValue", args si los usamos
     Mutation: {
+        // mutation clientes
         clienteAdd: (_, args) => {
             trabajo()
             return fetch(`http://${ipCliente}:${portCliente}/api/clientes`, {
@@ -56,6 +57,31 @@ const resolvers = {
             trabajo()
             const { id } = args
             return fetch(`http://${ipCliente}:${portCliente}/api/clientes/${id}`, {
+                method: 'DELETE'
+            }).then(res => res.json())
+        },
+        // mutation servicios
+        servicioAdd: (_, args) => {
+            trabajo()
+            return fetch(`http://${ipServicios}:${portServicios}/api/servicios`, {
+                method: 'POST',
+                body: JSON.stringify(args.servicio),
+                headers: { 'Content-Type': 'application/json' },
+            }).then(res => res.json())
+        },
+        servicioEdit: (_, args) => {
+            trabajo()
+            const { id } = args
+            return fetch(`http://${ipServicios}:${portServicios}/api/servicios/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify(args.servicio),
+                headers: { 'Content-Type': 'application/json' },
+            }).then(res => res.json())
+        },
+        servicioDelete: (_, args) => {
+            trabajo()
+            const { id } = args
+            return fetch(`http://${ipServicios}:${portServicios}/api/servicios/${id}`, {
                 method: 'DELETE'
             }).then(res => res.json())
         }
