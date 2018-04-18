@@ -8,14 +8,14 @@ module.exports = `
         tarifa: String 
     }
 
-    input NuevoServicio{
+    input NuevoServicio {
         nombre: String!
         codigo: String!
         descripcion: String!
         tarifa: String
     }
 
-    input ServicioEditable{
+    input ServicioEditable {
         nombre: String
         codigo: String
         descripcion: String

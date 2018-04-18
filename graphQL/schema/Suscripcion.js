@@ -7,12 +7,12 @@ module.exports = `
         created_At: String
     }
 
-    input NuevoSuscripcion{
+    input NuevoSuscripcion {
         cliente_id: String!
         servicio_id: String!
     }
 
-    input SuscripcionEditable{
+    input SuscripcionEditable {
         cliente_id: String
         servicio_id: String
     }

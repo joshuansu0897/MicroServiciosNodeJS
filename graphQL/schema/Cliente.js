@@ -7,13 +7,13 @@ module.exports = `
         correo: String
     }
 
-    input NuevoCliente{
+    input NuevoCliente {
         nombre: String!
         telefono: String
         correo: String
     }
 
-    input ClienteEditable{
+    input ClienteEditable {
         nombre: String
         telefono: String
         correo: String
