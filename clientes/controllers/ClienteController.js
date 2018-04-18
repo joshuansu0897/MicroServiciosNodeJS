@@ -32,7 +32,7 @@ router.route('/clientes')
             if (err) {
                 res.send(err);
             }
-            res.json({ message: 'Cliente creado' });
+            res.json(cliente);
         });
 
 
@@ -70,6 +70,9 @@ router.route('/clientes/:cliente_id')
                 res.send(err);
             }
 
+            console.log(req.params)
+
+            console.log(req.body)
             cliente.nombre = req.body.nombre;
             cliente.telefono = req.body.telefono;
             cliente.correo = req.body.correo;
@@ -78,7 +81,7 @@ router.route('/clientes/:cliente_id')
                 if (err) {
                     res.send(err);
                 }
-                res.json({ message: 'Cliente Actualizado' });
+                res.json(cliente);
             });
 
         });
@@ -86,14 +89,21 @@ router.route('/clientes/:cliente_id')
 
     // delete cliente
     .delete(function (req, res) {
+
+        let CLIENTE
+        // se busca el cleinte que se va a borrar y se guarda en una variable
+        Cliente.findById(req.params.cliente_id, function (err, cliente) {
+            CLIENTE = cliente;
+        });
+
+        // se elimina el cliente y se regresa la info del cliente eliminado
         Cliente.remove({
             _id: req.params.cliente_id
         }, function (err, cliente) {
             if (err) {
                 res.send(err);
             }
-
-            res.json({ message: 'Cliente borrado' });
+            res.json(CLIENTE);
         });
     });
 
