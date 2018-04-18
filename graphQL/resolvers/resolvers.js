@@ -14,6 +14,7 @@ const portSuscripcion = process.env.PORT_SUSCRIPCION_SERVICES || 4567
 
 const resolvers = {
     Query: {
+        // query clientes
         clientes: () => {
             trabajo()
             return fetch(`http://${ipCliente}:${portCliente}/api/clientes`).then(res => res.json())
@@ -23,6 +24,7 @@ const resolvers = {
             const { id } = args
             return fetch(`http://${ipCliente}:${portCliente}/api/clientes/${id}`).then(res => res.json())
         },
+        // query servicios
         servicios: () => {
             trabajo()
             return fetch(`http://${ipServicios}:${portServicios}/api/servicios`).then(res => res.json())
@@ -31,6 +33,16 @@ const resolvers = {
             trabajo()
             const { id } = args
             return fetch(`http://${ipServicios}:${portServicios}/api/servicios/${id}`).then(res => res.json())
+        },
+        // query suscripciones
+        suscripciones: () => {
+            trabajo()
+            return fetch(`http://${ipSuscripcion}:${portSuscripcion}/api/suscripciones`).then(res => res.json())
+        },
+        suscripcion: (parent, args) => {
+            trabajo()
+            const { id } = args
+            return fetch(`http://${ipSuscripcion}:${portSuscripcion}/api/suscripciones/${id}`).then(res => res.json())
         },
     },
     // el guion bajo es una convencion para los argumenos que no usamos ahi va "rootValue", args si los usamos

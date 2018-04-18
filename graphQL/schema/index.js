@@ -29,9 +29,9 @@ const rootQuery = `
         servicio(id: String!): Servicio
 
         # regresa todas las suscripciones de los cliente a los servicio
-        suscripcion: [Suscripcion]
+        suscripciones: [Suscripcion]
         # regresa una suscripcion de un cliente a un servicio
-        suscripciones(id: String!): Suscripcion
+        suscripcion(id: String!): Suscripcion
     }
 
     type Mutation {

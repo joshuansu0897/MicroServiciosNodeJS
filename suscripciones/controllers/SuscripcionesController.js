@@ -84,6 +84,12 @@ router.route('/suscripciones/:suscripciones_id')
 
     // delete Suscripcion
     .delete(function (req, res) {
+
+        let SUSCRIPCION
+        Suscripcion.findById(req.params.suscripciones_id, function (err, suscripcion) {
+            SUSCRIPCION = suscripcion;
+        });
+
         Suscripcion.remove({
             _id: req.params.suscripciones_id
         }, function (err, servicio) {
@@ -91,7 +97,7 @@ router.route('/suscripciones/:suscripciones_id')
                 res.send(err);
             }
 
-            res.json({ message: 'Suscripcion borrada' });
+            res.json(SUSCRIPCION);
         });
     });
 
@@ -170,7 +176,7 @@ function saveSub(suscripcion, res) {
         if (err) {
             res.send(err);
         }
-        res.json({ message: 'Se guardo la Suscripcion' });
+        res.json(suscripcion);
     });
 }
 module.exports = router
