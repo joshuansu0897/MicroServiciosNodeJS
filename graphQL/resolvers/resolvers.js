@@ -120,7 +120,7 @@ const resolvers = {
                 headers: { 'Content-Type': 'application/json' },
             }).then(res => res.json())
         },
-        servicioDelete: (_, args) => {
+        suscripcionDelete: (_, args) => {
             trabajo()
             const { id } = args
             return fetch(`http://${ipSuscripcion}:${portSuscripcion}/api/suscripciones/${id}`, {

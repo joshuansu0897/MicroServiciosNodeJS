@@ -3,7 +3,7 @@ module.exports = `
     type Servicio {
         _id: ID!
         nombre: String!
-        codigo: String! @deprecated(reason: "esto es una prueba de un campo 'deprecated'")
+        codigo: String @deprecated(reason: "esto es una prueba de un campo 'deprecated'")
         descripcion: String
         tarifa: String 
     }
