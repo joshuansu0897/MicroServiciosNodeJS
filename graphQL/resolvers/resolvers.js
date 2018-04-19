@@ -47,7 +47,8 @@ const resolvers = {
         // query factura
         factura: (parent, args) => {
             trabajo()
-            return fetch(`http://${ipFactura}:${portFactura}/api/facturas/${args.idCliente}`).then(res => res.json())
+            const { idCliente } = args
+            return fetch(`http://${ipFactura}:${portFactura}/api/facturas/${idCliente}`).then(res => res.json())
         }
     },
     // el guion bajo es una convencion para los argumenos que no usamos ahi va "rootValue", args si los usamos

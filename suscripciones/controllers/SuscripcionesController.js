@@ -5,6 +5,7 @@ const rp = require('request-promise')
 // tomando los ip y puertos
 const ipCliente = process.env.IP_CLIENTES_SERVICES
 const portCliente = process.env.PORT_CLIENTES_SERVICES
+
 const ipServicios = process.env.IP_SERVICIOS_SERVICES
 const portServicios = process.env.PORT_SERVICIOS_SERVICES
 
@@ -122,16 +123,16 @@ async function detallesDeSuscripcion(suscripcion, res, cliente_id) {
         const res = await getDataServicios(i.servicio_id);
         ser.push({
             created_At: i.created_At,
-            tarifa: res.tarifa,
-            nombre: res.nombre,
-            _id: res._id
+            tarifa: res == null ? undefined : res.tarifa,
+            nombre: res == null ? undefined : res.nombre,
+            _id: res == null ? undefined : res._id
         })
-        total += Number(res.tarifa)
+        total += Number(res == null ? 0 : res.tarifa)
     });
 
     const cliente = await getDataClientes(cliente_id)
 
-    obj.nombre_cliente = cliente.nombre
+    obj.nombre_cliente = cliente == null ? undefined : cliente.nombre
     obj.costo_total = total
     obj.num_servicios = suscripcion.length
     obj.servicios = ser
@@ -161,8 +162,8 @@ async function getDataClientes(cliente_id) {
 async function requestToSaveSub(suscripcion, res, req) {
     const cliente = await getDataClientes(req.body.cliente_id)
     const servicio = await getDataServicios(req.body.servicio_id)
-    suscripcion.cliente_id = cliente._id
-    suscripcion.servicio_id = servicio._id
+    suscripcion.cliente_id = cliente == null ? undefined : cliente._id
+    suscripcion.servicio_id = servicio == null ? undefined : servicio._id
     saveSub(suscripcion, res)
 }
 
