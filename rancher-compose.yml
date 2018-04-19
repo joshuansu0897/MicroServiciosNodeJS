@@ -1,0 +1,37 @@
+version: '2'
+services:
+
+  # servicios de clientes ---------
+  clientes:
+    scale: 1
+      
+  mongo-clientes:
+    scale: 1
+  # servicios de clientes ---------
+
+  # servicios de servicios ---------
+  servicios:
+    scale: 1   
+
+  mongo-servicios:
+    scale: 1
+  # servicios de servicios ---------
+
+  # servicios de suscripciones ---------
+  suscripciones:
+    scale: 1
+  
+  mongo-suscripciones:
+    scale: 1
+    
+  # servicios de suscripciones ---------
+
+  # servicios de facturas ---------
+  facturas:
+    scale: 1
+  # servicios de facturas ---------
+
+  # servicio de graphQL -----------  
+  grap:
+    scale: 1
+  # servicio de graphQL -----------
