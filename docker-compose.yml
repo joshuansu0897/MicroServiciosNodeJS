@@ -1,13 +1,13 @@
-version: '2'
+version: '3'
 services:
 
   # servicios de clientes ---------
   clientes:
     build:
       context: ./clientes
-    # volumes:
-    #   - ./clientes:/app
-    #   - /app/node_modules
+    volumes:
+      - ./clientes:/app
+      - /app/node_modules
     ports:
       - 3000:3000
     environment:
@@ -25,16 +25,16 @@ services:
     container_name: "mongo-clientes"
     ports:
       - 27018:27018
-    # volumes:
-    #   - ./clientes/data/db:/data/db
+    volumes:
+      - ./clientes/data/db:/data/db
   # servicios de clientes ---------
 
   # servicios de servicios ---------
   servicios:
     build: 
       context: ./servicios
-    # volumes:
-    #   - ./servicios:/app
+    volumes:
+      - ./servicios:/app
     ports:
       - 3333:3333
     environment:
@@ -52,17 +52,17 @@ services:
     container_name: "mongo-servicios"
     ports:
       - 27017:27017
-    # volumes:
-    #   - ./servicios/data/db:/data/db
+    volumes:
+      - ./servicios/data/db:/data/db
   # servicios de servicios ---------
 
   # servicios de suscripciones ---------
   suscripciones:
     build: 
       context: ./suscripciones
-    # volumes:
-    #   - ./suscripciones:/app
-    #   - ./suscripciones/node_modules:/app/node_modules
+    volumes:
+      - ./suscripciones:/app
+      - ./suscripciones/node_modules:/app/node_modules
     ports:
       - 4567:4567
     environment:
@@ -88,16 +88,16 @@ services:
     container_name: "mongo-suscripciones"
     ports:
       - 27020:27020
-    # volumes:
-    #   - ./suscripciones/data/db:/data/db
+    volumes:
+      - ./suscripciones/data/db:/data/db
   # servicios de suscripciones ---------
 
   # servicios de facturas ---------
   facturas:
     build: 
       context: ./facturas
-    # volumes:
-    #   - ./facturas:/app
+    volumes:
+      - ./facturas:/app
     ports:
       - 5678:5678
     environment:
@@ -119,15 +119,15 @@ services:
     container_name: "mongo-facturas"
     ports:
       - 27030:27030
-    # volumes:
-    #   - ./facturas/data/db:/data/db
+    volumes:
+      - ./facturas/data/db:/data/db
   # servicios de facturas ---------
 
   # servicio de graphQL -----------  
   grap:
     build: ./graphQL
-    # volumes:
-    #   - ./graphQL:/app
+    volumes:
+      - ./graphQL:/app
     ports:
       - 8888:8888
     environment:
@@ -155,4 +155,5 @@ services:
 
 networks:
   default:
-    name: job-net
+    external:
+      name: job-net

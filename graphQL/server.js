@@ -39,5 +39,6 @@ const PORT = process.env.PORT || 8888;
 app.listen(PORT, () => {
   console.log(`
     GraphQL corriendo en http://localhost:${PORT}
-    GraphiQL en http://localhost:${PORT}/graphiql`);
+    GraphiQL en http://localhost:${PORT}/graphiql
+    `);
 });
