@@ -3,21 +3,23 @@ services:
 
   # servicios de clientes ---------
   clientes:
-    build:
-      context: ./clientes
+    build: ./clientes
     volumes:
       - ./clientes:/app
       - /app/node_modules
     ports:
       - 3000:3000
+    networks: 
+      - clientes
+      - main
     environment:
+      - PORT=3000
+
       - PORT_MONGO=27018
       - URL_MONGO=mongo-clientes
-      - PORT=3000
-    links:
-      - mongo-clientes
     depends_on:
       - mongo-clientes
+    restart: always
       
   mongo-clientes:
     image: mongo
@@ -25,26 +27,32 @@ services:
     container_name: "mongo-clientes"
     ports:
       - 27018:27018
+    networks: 
+      - clientes
     volumes:
       - ./clientes/data/db:/data/db
+    restart: always
   # servicios de clientes ---------
 
   # servicios de servicios ---------
   servicios:
-    build: 
-      context: ./servicios
+    build: ./servicios
     volumes:
       - ./servicios:/app
+      - /app/node_modules
     ports:
       - 3333:3333
+    networks: 
+      - servicios
+      - main
     environment:
+      - PORT=3333
+
       - PORT_MONGO=27017
       - URL_MONGO=mongo-servicios
-      - PORT=3333
-    links:
-      - mongo-servicios
     depends_on:
-      - mongo-servicios 
+      - mongo-servicios
+    restart: always
       
   mongo-servicios:
     image: mongo
@@ -52,35 +60,40 @@ services:
     container_name: "mongo-servicios"
     ports:
       - 27017:27017
+    networks: 
+      - servicios
     volumes:
       - ./servicios/data/db:/data/db
+    restart: always
   # servicios de servicios ---------
 
   # servicios de suscripciones ---------
   suscripciones:
-    build: 
-      context: ./suscripciones
+    build: ./suscripciones
     volumes:
       - ./suscripciones:/app
-      - ./suscripciones/node_modules:/app/node_modules
+      - /app/node_modules
     ports:
       - 4567:4567
+    networks: 
+      - suscripciones
+      - main
     environment:
+      - PORT=4567
+
       - PORT_MONGO=27020
       - URL_MONGO=mongo-suscripciones
-      - PORT=4567
+
       - IP_CLIENTES_SERVICES=clientes
       - PORT_CLIENTES_SERVICES=3000
+
       - IP_SERVICIOS_SERVICES=servicios
       - PORT_SERVICIOS_SERVICES=3333
-    links:
-      - mongo-suscripciones
-      - clientes
-      - servicios
     depends_on:
       - mongo-suscripciones
       - clientes
       - servicios
+    restart: always
       
   mongo-suscripciones:
     image: mongo
@@ -88,30 +101,36 @@ services:
     container_name: "mongo-suscripciones"
     ports:
       - 27020:27020
+    networks: 
+      - suscripciones
     volumes:
       - ./suscripciones/data/db:/data/db
+    restart: always
   # servicios de suscripciones ---------
 
   # servicios de facturas ---------
   facturas:
-    build: 
-      context: ./facturas
+    build: ./facturas
     volumes:
       - ./facturas:/app
+      - /app/node_modules
     ports:
       - 5678:5678
+    networks: 
+      - facturas
+      - main
     environment:
+      - PORT=5678
+
       - PORT_MONGO=27030
       - URL_MONGO=mongo-facturas
-      - PORT=5678
+
       - IP_SUSCRIPCIONES_SERVICES=suscripciones
       - PORT_SUSCRIPCIONES_SERVICES=4567
-    links:
-      - mongo-facturas
-      - suscripciones
     depends_on:
       - mongo-facturas 
       - suscripciones
+    restart: always
 
   mongo-facturas:
     image: mongo
@@ -119,8 +138,11 @@ services:
     container_name: "mongo-facturas"
     ports:
       - 27030:27030
+    networks: 
+      - facturas
     volumes:
       - ./facturas/data/db:/data/db
+    restart: always
   # servicios de facturas ---------
 
   # servicio de graphQL -----------  
@@ -128,32 +150,37 @@ services:
     build: ./graphQL
     volumes:
       - ./graphQL:/app
+      - /app/node_modules
+    networks: 
+      - main
     ports:
       - 8888:8888
     environment:
       - PORT=8888
+
       - IP_CLIENTES_SERVICES=clientes
       - PORT_CLIENTES_SERVICES=3000
+
       - IP_SERVICIOS_SERVICES=servicios
       - PORT_SERVICIOS_SERVICES=3333
+
       - IP_FACTURA_SERVICES=facturas
       - PORT_FACTURA_SERVICES=5678
+
       - IP_SUSCRIPCION_SERVICES=suscripciones
       - PORT_SUSCRIPCION_SERVICES=4567
-    links:
-      - clientes
-      - servicios
-      - facturas
-      - suscripciones
     depends_on:
       - clientes
       - facturas
       - suscripciones
       - servicios
-      
+    restart: always
   # servicio de graphQL -----------
 
+# networks -----------------------------
 networks:
-  default:
-    external:
-      name: job-net
+  clientes:
+  facturas:
+  suscripciones:
+  servicios:
+  main:
